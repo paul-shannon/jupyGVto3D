@@ -14,4 +14,4 @@ clean:
 
 
 run:
-	(cd ./examples/basicDemo; jupyter notebook simple.ipynb)
+	(cd ./examples/basicDemo; jupyter notebook --NotebookApp.token= simple.ipynb)
