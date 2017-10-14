@@ -1,6 +1,6 @@
 {
   "name": "jupyGVto3D",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "widgets for genome and 3D protein structure",
   "author": "Paul Shannon",
   "main": "lib/index.js",
@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.0",
-    "lodash": "^4.17.4",
-    "cytoscape": "^3.2.4"
+    "cytoscape": "^3.2.4",
+    "igv_wrapper": "github:datavisyn/igv_wrapper",
+    "lodash": "^4.17.4"
   }
 }

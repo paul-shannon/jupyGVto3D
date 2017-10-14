@@ -1,6 +1,7 @@
 var widgets = require('@jupyter-widgets/base');
 var _ = require('lodash');
 var cytoscape = require('cytoscape');
+var igv = require('igv_wrapper')
 
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
