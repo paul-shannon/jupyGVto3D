@@ -24,14 +24,19 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "webpack": "^3.5.5",
-    "rimraf": "^2.6.1"
+    "css-loader": "^0.28.7",
+    "rimraf": "^2.6.1",
+    "style-loader": "^0.19.0",
+    "svg-inline-loader": "^0.8.0",
+    "svg-loader": "0.0.2",
+    "webpack": "^3.5.5"
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.0",
     "cytoscape": "^3.2.4",
     "datatables": "^1.10.13",
-    "igv_wrapper": "github:paul-shannon/igv.js.npm",
-    "lodash": "^4.17.4"
+    "igv_js_npm": "github:paul-shannon/igv.js.npm",
+    "lodash": "^4.17.4",
+    "ngl": "^0.10.4"
   }
 }
