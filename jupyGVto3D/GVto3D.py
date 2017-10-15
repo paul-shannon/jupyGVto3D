@@ -32,5 +32,8 @@ class GVto3D(widgets.DOMWidget):
        #payload = {"tabNumber": tabNumber, "msg": msg};
        self.msgFromKernel = json.dumps({"cmd": "displayGraph", "status": "request", "callback": "", "payload": ""})
 
+    def setGenome(self):
+       self.msgFromKernel = json.dumps({"cmd": "setGenome", "status": "request", "callback": "", "payload": "hg38"})
+
 
 

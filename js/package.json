@@ -30,7 +30,8 @@
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.0",
     "cytoscape": "^3.2.4",
-    "igv_wrapper": "github:datavisyn/igv_wrapper",
+    "datatables": "^1.10.13",
+    "igv_wrapper": "github:paul-shannon/igv.js.npm",
     "lodash": "^4.17.4"
   }
 }

@@ -1,7 +1,7 @@
 var widgets = require('@jupyter-widgets/base');
 var _ = require('lodash');
 var cytoscape = require('cytoscape');
-var igv = require('igv_wrapper')
+var igv = require('igv.js.npm')
 
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
@@ -43,10 +43,15 @@ var GVto3DView = widgets.DOMWidgetView.extend({
       var tabsList = $("<ul></ul>");
       tabsList.append("<li><a href='#igvTab'>igv</a></li>");
       tabsList.append("<li><a href='#cyjsTab'>cyjs</a></li>")
-      var igvTab = $("<div id='igvTab'>tab one</div>");
+
       var cyjsTab = $("<div id='cyjsTab'></div>");
       var cyjsDiv = $("<div id='cyjsDiv' style='border:1px solid green; height: 720px; width: 100%'></div>");
       cyjsTab.append(cyjsDiv);
+
+      var igvTab = $("<div id='igvTab'>tab one</div>");
+      var igvDiv = $("<div id='igvDiv' style='border:1px solid blue; height: 720px; width: 100%'></div>");
+      igvTab.append(igvDiv);
+
       tabsOuterDiv.append(tabsList);
       tabsOuterDiv.append(igvTab);
       tabsOuterDiv.append(cyjsTab);
@@ -121,6 +126,9 @@ var GVto3DView = widgets.DOMWidgetView.extend({
           case "raiseTab":
               this.raiseTab(msg);
               break;
+          case "setGenome":
+              this.setGenome(msg);
+              break;
           case "displayGraph":
               this.displayGraph(msg);
               break;
@@ -143,6 +151,7 @@ var GVto3DView = widgets.DOMWidgetView.extend({
 
      //--------------------------------------------------------------------------------
      raiseTab: function(msg){
+
         var tabName = msg.payload
         switch(tabName){
            case("1"):
@@ -155,6 +164,43 @@ var GVto3DView = widgets.DOMWidgetView.extend({
               alert("raiseTab: no tab named " + tabName);
            }
         }, // writeToTab
+
+     //--------------------------------------------------------------------------------
+    initializeIGV: function(genomeName){
+
+	var hg38_options = {
+	    minimumBases: 5,
+	    flanking: 1000,
+	    showRuler: true,
+
+	    reference: {
+		id: "hg38",
+		fastaURL: "https://s3.amazonaws.com/igv.broadinstitute.org/genomes/seq/hg38/hg38.fa",
+		cytobandURL: "https://s3.amazonaws.com/igv.broadinstitute.org/annotations/hg38/cytoBandIdeo.txt"
+            },
+	    tracks: [
+		{name: 'Gencode v24',
+		 url: "//s3.amazonaws.com/igv.broadinstitute.org/annotations/hg38/genes/gencode.v24.annotation.sorted.gtf.gz",
+		 indexURL: "//s3.amazonaws.com/igv.broadinstitute.org/annotations/hg38/genes/gencode.v24.annotation.sorted.gtf.gz.tbi",
+		 format: 'gtf',
+		 visibilityWindow: 2000000,
+		 displayMode: 'EXPANDED'
+		},
+            ]
+	}; // hg38_options
+
+       var igvOptions = hg38_options;
+       var igvBrowser = igv.createBrowser($("#igvDiv"), igvOptions);
+       return(igvBrowser)
+       },
+
+     //--------------------------------------------------------------------------------
+     setGenome: function(msg){
+       $('a[href="#igvTab"]').click();
+        var self = this;
+        setTimeout(function(){
+	    self.igvBrowser = self.initializeIGV("hg38");},0);
+        }, // setGenome
 
      //--------------------------------------------------------------------------------
      displayGraph: function(msg){
