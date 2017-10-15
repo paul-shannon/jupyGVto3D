@@ -45,18 +45,24 @@ var GVto3DView = widgets.DOMWidgetView.extend({
       var tabsList = $("<ul></ul>");
       tabsList.append("<li><a href='#igvTab'>igv</a></li>");
       tabsList.append("<li><a href='#cyjsTab'>cyjs</a></li>")
+      tabsList.append("<li><a href='#nglTab'>3D</a></li>")
 
       var cyjsTab = $("<div id='cyjsTab'></div>");
       var cyjsDiv = $("<div id='cyjsDiv' style='border:1px solid green; height: 720px; width: 100%'></div>");
       cyjsTab.append(cyjsDiv);
 
-      var igvTab = $("<div id='igvTab'>tab one</div>");
+      var igvTab = $("<div id='igvTab'></div>");
       var igvDiv = $("<div id='igvDiv' style='border:1px solid blue; height: 720px; width: 100%'></div>");
       igvTab.append(igvDiv);
+
+      var nglTab = $("<div id='nglTab'></div>");
+      var nglDiv = $("<div id='nglDiv' style='border:1px solid blue; height: 720px; width: 100%'></div>");
+      nglTab.append(nglDiv)
 
       tabsOuterDiv.append(tabsList);
       tabsOuterDiv.append(igvTab);
       tabsOuterDiv.append(cyjsTab);
+      tabsOuterDiv.append(nglTab);
       return(tabsOuterDiv);
       },
 
