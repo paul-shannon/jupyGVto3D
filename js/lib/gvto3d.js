@@ -2,6 +2,7 @@ var widgets = require('@jupyter-widgets/base');
 var _ = require('lodash');
 var cytoscape = require('cytoscape');
 var igv = require('igv.js.npm')
+//var igv = require('IGV')
 require('igv.js.npm/igv.css')
 var NGL = require('ngl');
 
@@ -140,6 +141,9 @@ var GVto3DView = widgets.DOMWidgetView.extend({
           case "displayGraph":
               this.displayGraph(msg);
               break;
+          case "showPDB":
+              this.showPDB(msg);
+              break;
           default:
               alert("dispatchRequest: unrecognized msg.cmd: " + msg.cmd);
           } // switch
@@ -217,7 +221,59 @@ var GVto3DView = widgets.DOMWidgetView.extend({
         self.cyjs = self.createCyjs();
         setTimeout(function(){self.cyjs.fit(100);}, 500);
 
-        } // displayGraph
+        }, // displayGraph
+
+     //--------------------------------------------------------------------------------
+     showPDB: function(msg){
+
+       $('a[href="#nglTab"]').click();
+       var self = this;
+
+       console.log("--- displayPDB");
+       $("#nglDiv").height($("#nglTab").height()-10);
+
+       window.nglStage = new NGL.Stage("nglDiv");
+       window.nglStage.handleResize();
+       self.nglStage = window.nglStage;
+
+       console.log(msg.payload)
+       var pdbID = msg.payload;
+       self.pdbID = pdbID;
+
+       window.addEventListener( "resize", function(event){
+         window.nglStage.handleResize();
+         }, false );
+
+      function initial_ngl_representation( component ){
+         if( component.type !== "structure" ) return;
+         component.addRepresentation( "cartoon", {
+           aspectRatio: 3.0,
+           scale: 1.5,
+           colorScale: "Spectral",
+           colorScheme: "residueindex",
+           });
+        component.addRepresentation( "licorice", {
+           sele: "hetero and not ( water or ion )",
+           multipleBond: true,
+           scale: 2.5
+           });
+        component.addRepresentation( "spacefill", {
+           sele: "ion and not water",
+           scale: 0.5
+          });
+        };
+
+       console.log("--- about to view " + pdbID);
+       setTimeout(function(){
+          window.nglStage.loadFile("rcsb://" + pdbID).then(function(component){
+            initial_ngl_representation(component);
+            component.autoView();
+            console.log("after autoview");
+            self.hub.send({cmd: msg.callback, status: "success", callback: "", payload: ""});
+          });
+       }, 100);
+
+     } // showPDB
 
      //--------------------------------------------------------------------------------
    }); // GVto3DView

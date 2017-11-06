@@ -35,5 +35,8 @@ class GVto3D(widgets.DOMWidget):
     def setGenome(self):
        self.msgFromKernel = json.dumps({"cmd": "setGenome", "status": "request", "callback": "", "payload": "hg38"})
 
+    def showPDB(self, pdbID):
+       self.msgFromKernel = json.dumps({"cmd": "showPDB", "status": "request", "callback": "", "payload": pdbID})
+
 
 
